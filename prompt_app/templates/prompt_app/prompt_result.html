@@ -1,0 +1,15 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Prompt Result</title>
+</head>
+<body>
+    <h2>Generated Prompt</h2>
+    <p>{{ generated_prompt }}</p>
+    <a href="{% url 'generate_prompt' %}">Generate another prompt</a>
+</body>
+</html>
