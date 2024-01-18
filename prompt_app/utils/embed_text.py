@@ -2,7 +2,7 @@
 from langchain.embeddings.openai import OpenAIEmbeddings
 from dotenv import load_dotenv
 
-from chunk_pdf import extract_text_from_pdf, chunk_text
+from . chunk_pdf import extract_text_from_pdf, chunk_text
 
 load_dotenv()
 
