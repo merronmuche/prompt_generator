@@ -33,7 +33,7 @@ class Document(models.Model):
 
         if self.pdf_file:  
             text = extract_text_from_pdf(self.pdf_file.path)
-            chunks = chunk_text(text)
+            chunks = chunk_text(text, words_per_chunk=200, overlap_size=5)
             embeds = embed_text(chunks)
 
             for chunk, embed in zip(chunks, embeds):
