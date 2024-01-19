@@ -73,14 +73,12 @@ from .models import Prompt, TextChunk
 #     # Return the generated prompt
 #     return prompt
 
-def generate_prompt_from_vector(text_chunk):
-    # Access the text from the 'chunk' attribute of the TextChunk instance
-    text = text_chunk.chunk
+def generate_prompt_from_vector(text_chunk, user_question):
 
-    # Generate the prompt based on the extracted text
-    prompt = "Considering the content: '{}', what insights can you derive?".format(text)
-
-    # Return the generated prompt
+    prompt = text_chunk + " \n based on the above data, give an answer to \
+            the following question. restrict yourself to the above data only. \
+            if you can't get an answer based on the data, you can feel free to \
+                say i don't know. here is the question. \n" + user_question
     return prompt
 
 
@@ -101,10 +99,10 @@ def generate_prompt(request):
 
             if similarity > highest_similarity:
                 highest_similarity = similarity
-                best_text_chunk = text_chunk
+                best_text_chunk = text_chunk.chunk
 
         if best_text_chunk is not None:
-            generated_prompt = generate_prompt_from_vector(best_text_chunk)
+            generated_prompt = generate_prompt_from_vector(best_text_chunk, input_text)
             # return HttpResponse(generated_prompt)
             return render(request, 'prompt_app/prompt_result.html', {'generated_prompt': generated_prompt})
         else:
