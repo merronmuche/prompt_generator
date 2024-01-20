@@ -4,7 +4,6 @@ from collections.abc import Iterable
 from django.db import models
 from .utils.chunk_pdf import extract_text_from_pdf, chunk_text
 from .utils.embed_text import embed_text
-# Other imports...
 import logging
 
 logger = logging.getLogger(__name__)
@@ -33,14 +32,13 @@ class Document(models.Model):
 
         if self.pdf_file:  
             text = extract_text_from_pdf(self.pdf_file.path)
-            chunks = chunk_text(text, words_per_chunk=200, overlap_size=5)
+            chunks = chunk_text(text)
             embeds = embed_text(chunks)
 
             for chunk, embed in zip(chunks, embeds):
                 TextChunk.objects.create(document=self, chunk=chunk, embed=embed)
         else:
             logger.error("No PDF file to process.")
-
 
 class TextChunk(models.Model):
 

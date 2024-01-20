@@ -9,76 +9,13 @@ from .models import Prompt, TextChunk
 
 
 
-# def generate_prompt(request):
-#     if request.method == 'POST':
-#         input_text = request.POST.get('input_text')
-#         length_of_line = request.POST.get('length_of_line')
-#         #embed the users prompt
-#         embeded_question = embed_text([input_text])[0]
-#         embeded_document_vectors = TextChunk.objects.all()
-#         for embeded_document_vector in embeded_document_vectors:
-#             similarity = cosine_similarity(embeded_question, embeded_document_vector.embed)
-            
-#             print(similarity)
-
-
-
-
-# def generate_prompt(request):
-#     if request.method == 'POST':
-#         input_text = request.POST.get('input_text')
-#         length_of_line = request.POST.get('length_of_line')
-        
-#         # Embed the user's prompt
-#         embeded_question = embed_text([input_text])[0]
-
-#         # Initialize variables to store the best match
-#         highest_similarity = -1  # Start with a low value
-#         best_document_vector = None
-
-#         # Loop through each document vector
-#         embeded_document_vectors = TextChunk.objects.all()
-#         for embeded_document_vector in embeded_document_vectors:
-#             similarity = cosine_similarity(embeded_question, embeded_document_vector.embed)
-            
-#             # Update if a higher similarity is found
-#             if similarity > highest_similarity:
-#                 highest_similarity = similarity
-#                 best_document_vector = embeded_document_vector
-                
-
-#         if best_document_vector is not None:
-#             # Assuming there is a method to generate prompt from a document vector
-#             best_prompt = generate_prompt_from_vector(best_document_vector)
-#             return best_prompt  # Or render it in your response
-#         else:
-#             return "No similar documents found."
-        
-    #     generated_prompt = get_prompt(input_text, length_of_line)
-
-    #     Prompt.objects.create(input_text=input_text, generated_prompt=generated_prompt, length_of_line=length_of_line)
-
-    #     return render(request, 'prompt_app/prompt_result.html', {'generated_prompt': generated_prompt})
-
-    # return render(request, 'prompt_app/generate_prompt.html')
-
-
-# def generate_prompt_from_vector(best_document_vector ):
-#     # Replace 'correct_attribute' with the actual attribute name
-#     text = getattr(best_document_vector , 'correct_attribute', 'Default text if attribute not found')
-
-#     # Generate the prompt based on the extracted text
-#     prompt = "Reflecting on the topic '{}', what are your thoughts?".format(text)
-
-#     # Return the generated prompt
-#     return prompt
-
 def generate_prompt_from_vector(text_chunk, user_question):
 
     prompt = text_chunk + " \n based on the above data, give an answer to \
             the following question. restrict yourself to the above data only. \
             if you can't get an answer based on the data, you can feel free to \
-                say i don't know. here is the question. \n" + user_question
+                say i don't know. here is the question. \n" + user_question +\
+                 "DONOT add anything from yourself."
     return prompt
 
 
